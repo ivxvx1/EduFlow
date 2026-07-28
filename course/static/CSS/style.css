@@ -1,0 +1,982 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* =================== 1. GLOBAL VARIABLES & SHARED STYLES ============================ */
+:root {
+    --primary: #64ADB1; 
+    --bg: #F5F8FA;     
+    --muted: #7CBFC0;   
+    --card: #ffffff;    
+    --accent: #e8a649;  
+    --radius: 10px;    
+    --glass: rgba(255,255,255,0.7); 
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: #222;
+    min-height: 100vh;
+}
+
+/* =================== 2. LAYOUT & RESPONSIVENESS ====================== */
+.container-page, .main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.page-content, .calendar-content {
+    flex: 1 1 auto; 
+}
+
+.container {
+    max-width: 1150px;
+    margin: 28px auto;
+    padding: 0 18px;
+}
+
+
+@media (min-width: 1025px) {
+    html, body {
+        height: 100vh;
+        overflow: hidden;
+    }
+    .container-page, .main-container {
+        height: 100vh;
+    }
+    .page-content, .calendar-content {
+        overflow: auto; 
+    }
+}
+
+
+/* ==================== 3. HEADER & NAVIGATION ============================ */
+.header {
+    background: #ffffff;
+    color: black;
+    padding: 18px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.header .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.header .brand img {
+    height: 70px;
+}
+.header nav a {
+    
+    color: var(--primary); 
+    text-decoration: none;
+    margin-left: 18px;
+    font-weight: 600;
+}
+.header nav a:hover {
+    color: var(--accent);
+}
+.header .actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.header .actions a {
+   
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s ease;
+    box-shadow: none; 
+}
+.header .actions a:hover {
+    color: var(--card);
+    background: var(--primary);
+}
+
+
+/* ===================== 4. COMMON ELEMENTS (Card, Button) ====================== */
+.card {
+    padding: 20px;
+    background: var(--card);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+
+.btn {
+    background: var(--card);
+    color: var(--primary);
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none; 
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s ease;
+    box-shadow: 0 6px 18px rgba(30, 111, 164, 0.12);
+}
+
+
+.btn.primary { 
+    background: var(--accent); 
+    color: #fff; 
+    box-shadow: 0 6px 18px rgba(232, 166, 73, 0.3);
+}
+
+.btn.primary:hover {
+    background: #e9b366; 
+}
+
+.btn.ghost { 
+    background: transparent; 
+    border: 1px solid #515353; 
+    color: #515353; 
+    box-shadow: none;
+}
+
+.btn.small {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+.btn.danger {
+    background: #dc3545; 
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+}
+
+.btn.danger:hover {
+    background: #f94759; 
+}
+
+.btn.danger .fa-trash,
+.btn.danger i {
+    color: #ffffff; 
+}
+
+
+/* =================== 5. HOME PAGE & ABOUT STYLES ======================= */
+.hero {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+    border-radius: 14px;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 5px;
+    align-items: center;
+    box-shadow: 0 8px 30px rgba(16, 24, 40, 0.06);
+}
+
+.hero-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+.hero h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+    color: #000000; 
+}
+.hero p {
+    color: #515353; 
+    margin-bottom: 18px;
+}
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+}
+.feature {
+    padding: 18px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fff, #fcfcff);
+    text-align: center;
+}
+.feature h4 { margin-bottom: 6px; }
+
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+    }
+    .hero-img {
+        display: none; 
+    }
+}
+
+
+/* ================= 6. FOOTER ================ */
+.footer {
+  margin-top: 28px;
+  padding: 2px 18px;
+  display: flex; 
+  align-items: center; 
+  color: #ffffff;
+  font-size: 12px;
+  background-color: #64ADB1;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.footer .logo-img {
+    height: 40px;
+    width: auto;
+    margin-right: 18px;
+}
+
+
+.footer-text {
+   margin-right: auto;
+   margin-left: auto;
+   padding-left: 250px;  
+}
+
+.footer-icons {
+  margin-left: auto; 
+  padding-right: 18px; 
+}
+
+
+.icon {
+  font-size: 20px;
+  color: white;
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
+
+/* =================== 7. LOGIN STYLE ============================ */
+
+
+.login-box {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    text-align: center;
+}
+.login-box h2, .login-box p { text-align: center; }
+
+
+
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+    background: #fcfcfc;
+}
+
+.input-group:focus-within {
+    border-color: var(--primary); 
+    box-shadow: 0 0 0 3px rgba(100, 173, 177, 0.2);
+}
+
+.input-group i {
+    color: var(--muted);
+    font-size: 18px;
+    margin-right: 12px;
+    transition: color 0.3s ease;
+}
+
+.input-group:focus-within i {
+    color: var(--primary);
+}
+
+.input-group input, 
+.input-group select {
+    flex-grow: 1;
+    border: none;
+    padding: 8px 0; 
+    font-size: 16px;
+    background: transparent;
+    margin-bottom: 0; 
+    outline: none; 
+}
+.input-group select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+.input label {
+    display: none; 
+}
+
+
+.form-group p { 
+    margin-bottom: 10px; 
+}
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+.form-group input:not([type="submit"]), 
+.form-group textarea,
+.form-group select { 
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    box-sizing: border-box;
+}
+
+
+/* ==================== 8. LOGOUT  ============================ */
+
+.logout-box {
+    text-align: center;
+    padding: 40px 60px;
+    background: var(--card);
+    border-radius: 15px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    width: 90%;
+}
+.logout-box h2 {
+    color: var(--primary);
+    font-size: 28px;
+    margin: 15px 0 10px;
+}
+
+
+.flash-messages {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    width: 90%;
+    max-width: 500px;
+}
+.flash-messages .message {
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+}
+.flash-success { background-color: #4caf50; }
+.flash-error { background-color: #f44336; }
+.flash-info { background-color: #2196F3; }
+
+
+
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 80px; 
+    background: #111;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all .28s ease;
+    z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { background-color: #28a745; }
+.toast.error { background-color: #dc3545; }
+
+
+/* =================== 9. REVIEWS PAGE STYLES ======================= */
+.responses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.feedback-card {
+    border-left: 4px solid var(--primary);
+    background: var(--card);
+    transition: box-shadow 0.3s ease;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+}
+.feedback-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.fb-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.fb-head i { 
+    color: var(--accent); 
+    margin-right: 5px; 
+}
+
+
+/* ==================== 10. CALENDAR PAGE ============================ */
+.calendar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+.calendar-wrapper {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+.fc-toolbar-title {
+    font-size: 1.5em !important;
+    color: var(--primary);
+}
+.fc-daygrid-event {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    padding: 2px 4px;
+    font-size: 0.85em; 
+    border-radius: 4px;
+}
+.fc-event-title {
+    font-weight: 600;
+}
+.task-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+}
+.task-list-item:last-child {
+    border-bottom: none;
+}
+#task-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+
+/* ==================== 11. MODAL (Shared) ====================== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: auto;
+}
+.modal-content {
+    background: var(--card);
+    padding: 20px;
+    border-radius: var(--radius);
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    margin: 50px auto; 
+}
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #555;
+    font-weight: normal;
+}
+.close-btn:hover {
+    color: #000;
+}
+
+
+/* ============================= 12. SIDEBAR & DASHBOARD PAGE Sidebar ===================== */
+.sidebar {
+    padding: 16px;
+    background-color: #f4f7f9;
+    border-radius: 12px;
+    position: fixed;
+    left: 0;
+    top: 100px;
+    height: calc(100% - 148px);
+    width: 180px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.main-content {
+    margin-left: 200px;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.sidebar .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidebar .menu-item {
+    text-decoration: none;
+    font-weight: 600;
+    color: #64ADB1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar .menu-item:hover {
+    background-color: #64ADB1;
+    color: white;
+}
+
+.sidebar .menu-item i {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.sidebar .menu-item:hover i {
+    transform: translateX(5px);
+}
+
+.sidebar .menu-item span {
+    font-size: 16px;
+    font-weight: 600;
+    color: inherit;
+}
+
+/* ------------ COURSE CARDS ---------*/
+.courses-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 1100px;
+    width: 100%;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.course-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    padding: 22px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.course-card .course-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: -10px;
+    display: block;
+}
+
+.course-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.course-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #64ADB1;
+    margin-bottom: 6px;
+}
+
+.course-instructor {
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 14px;
+}
+
+.course-card button {
+    align-self: flex-start;
+    padding: 10px 18px;
+    background-color: #e8a74d;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.course-card button:hover {
+    background-color: #e5e4e3;
+}
+
+/* -------- COURSE MANAGER STYLES ------- */
+.course-manager {
+    margin-top: 30px;
+    width: 100%;
+}
+
+
+.course-manager .manager-heading {
+    font-size: 22px;
+    font-weight: 700;
+    color: #e8a74d; 
+    margin-bottom: 15px;
+}
+
+
+.course-manager .manager-divider {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+    width: 100%; 
+}
+
+
+/* --------- MEDIA QUERIES ---------*/
+@media (max-width: 768px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+}
+
+
+.add-course {
+    margin-bottom: 20px;
+}
+
+.manager-header h2 {
+    margin: 0;
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn.primary {
+    background: #e8a74d;
+    color: #fff;
+}
+
+.btn.danger {
+    background: #e76b6b;
+    color: #fff;
+}
+
+.btn.ghost {
+    background: transparent;
+    border: 1px solid #ddd;
+}
+
+.card {
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.04);
+}
+
+.course-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.btn i {
+    margin-right: 6px;
+}
+
+.btn.small {
+    padding: 6px 10px;
+    font-size: 0.85em;
+}
+
+/* --------- FORM STYLES -------- */
+
+.form-group p {
+    margin-bottom: 15px;
+}
+
+
+.form-group input:not([type="submit"]),
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.errorlist {
+    color: #f44336;
+    margin-top: 5px;
+    padding-left: 0;
+    list-style: none;
+}
+
+
+/* ----- FLASH MESSAGES & CONFIRMATION BOX -----*/
+.flash-messages {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    width: 90%;
+    max-width: 500px;
+}
+
+.flash-messages .message {
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeout 5s forwards;
+}
+
+.flash-success {
+    background-color: #4caf50;
+}
+
+.flash-error {
+    background-color: #f44336;
+}
+
+.flash-info {
+    background-color: #2196F3;
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.confirm-box {
+    margin-top: 12px;
+    background: #fff3f3;
+    border: 1px solid #f0b0b0;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.confirm-box p {
+    margin-bottom: 10px;
+}
+
+.confirm-box .btn {
+    margin-right: 6px;
+}
+
+/* ---- SEARCH BAR STYLES ---- */
+.search-course {
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.search-form {
+    width: 100%;
+}
+
+.search-form .form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-form input[type="search"] {
+    margin: 0;
+}
+
+.search-form button {
+    flex-shrink: 0;
+}
+/* ======================== 13. LIBRARY / BOOKS STYLES ============================ */
+
+
+.library-content {
+    text-align: center; 
+}
+
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 24px;
+    margin: 40px auto; 
+    max-width: 1250px; 
+}
+
+.book-card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.book-image {
+    width: 100%;
+   
+    height: 250px; 
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.book-info {
+    flex-grow: 1; 
+    padding: 15px 0;
+}
+
+.book-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 15px;
+}
+
+.book-author {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.book-card .book-button {
+   
+    width: 100%; 
+    margin-top: 15px;
+    padding: 10px 18px;
+    background-color: var(--accent);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block; 
+}
+
+.book-card .book-button:hover {
+    background-color: #e8b366;
+}
+
+/* ------------------ RESPONSIVE DESIGN ------------------- */
+
+
+@media (max-width: 1200px) {
+    .book-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .book-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .book-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

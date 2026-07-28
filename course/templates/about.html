@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>About</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container-page">
+  <header class="header">
+    <nav>
+      <a href={% url 'index' %}><i class="fa-solid fa-house"></i> Home</a>
+      <a href={% url 'about' %}><i class="fa-solid fa-circle-info"></i> About</a>
+    </nav>
+
+    <div class="brand">
+      <img src="{% static 'images/EduFlow.png' %} " alt="logo" class="logo-img">
+    </div>
+    <nav>
+      <a href={% url 'dashboard' %}><i class="fa-solid fa-gauge"></i> Dashboard</a>
+      <a href= {% url 'logout' %} id="logoutLink"><i class="fa-solid fa-sign-out"></i> Logout</a>
+    </nav>
+  </header>
+
+    <main class="page-content">
+      <div class="container">
+        <div class="card" style="padding:26px">
+          <h2><i class="fa-solid fa-graduation-cap"></i> About EduFlow</h2>
+          <p>EduFlow helps Programme Leaders effortlessly manage their courses, track progress, and stay organized. Designed for simplicity and efficiency .</p>
+          <div class="grid-3" style="margin-top:18px">
+            <div class="feature"><i class="fa-solid fa-layer-group" style="font-size:26px;color:#e8a649"></i><h4>Easy Course Management</h4><p class="muted">Create and organize content fast.</p></div>
+            <div class="feature"><i class="fa-solid fa-calendar-days" style="font-size:26px;color:#e8a649"></i><h4>Stay on Track with Your Calendar</h4><p class="muted">Easily Organize Your Events and Set Important Dates</p></div>
+            <div class="feature"><i class="fa-solid fa-comments" style="font-size:26px;color:#e8a649"></i><h4>Student Engagement</h4><p class="muted">Collect reviews for improvement.</p></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;padding:16px;text-align:center">
+          <h3><i class="fa-solid fa-share-nodes"></i> Contact , Social</h3>
+          <p class="muted">Connect with GCET , EduFlow on social media</p>
+          <div style="margin-top:8px">
+          <a href="https://www.instagram.com/gcetoman?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="icon"><i class="fa-brands fa-instagram" style="font-size:26px;color:#515353"></i></a>
+          <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-regular fa-envelope" style="font-size:26px;color:#515353"></i></a>
+          <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-solid fa-square-phone-flip" style="font-size:26px;color:#515353"></i></a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+   <footer class="footer">
+      <div class="brand">
+          <img src="{% static 'images/EduFlow_w.png' %}" alt="logo" class="logo-img">
+      </div>
+      <span class="footer-text">Every step you take today brings you closer to your dreams</span>
+      
+      <div class="footer-icons">
+          <a href="https://www.instagram.com/gcetoman?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="icon"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-regular fa-envelope"></i></a>
+          <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-solid fa-square-phone-flip"></i></a>
+      </div>
+    </footer>
+
+  <script src="{% static 'JS/main.js' %}"></script>
+  <div class="toast"></div>
+</body>
+</html>

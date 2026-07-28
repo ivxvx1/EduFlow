@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calendar</title>
+
+        
+        <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    </head>
+    <body>
+
+        <div class="main-container">
+            
+            <header class="header">
+                <nav>
+                    <a href={% url 'index' %} ><i class="fa-solid fa-house"></i> Home</a>
+                </nav>
+                <div class="brand">
+                    <img src="{% static 'images/EduFlow.png' %}" alt="logo" class="logo-img">
+                </div>
+                <div class="actions">
+                    <a class="btn" href={% url 'dashboard' %} ><i class="fa-solid fa-arrow-left"></i> Back</a>
+                </div>
+            </header>
+
+            
+            <main class="calendar-content">
+                <div class="flash-messages">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="message flash-{{ message.tags }}" style="padding: 12px 16px; margin-bottom: 10px; border-radius: 8px; color: #fff; font-weight: 600; text-align: center; background-color: {% if message.tags == 'success' %}#4caf50{% elif message.tags == 'error' %}#f44336{% else %}#2196F3{% endif %};">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div id="calendar" class="calendar-wrapper"></div>
+            </main>
+        </div>
+
+
+        <div class="modal" id="task-modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3 id="task-date-title"><i class="fa-solid fa-calendar-plus"></i> Add & Manage Tasks</h3>
+                
+                <form method="post" class="card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #ddd;">
+                    {% csrf_token %}
+                    <h4>Add New Task</h4>
+                    <div class="form-group">
+                        <label for="{{ task_form.date.id_for_label }}" style="font-weight: 600;">Select Date:</label>
+                        {{ task_form.date }} 
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label for="{{ task_form.title.id_for_label }}" style="font-weight: 600;">Task Title:</label>
+                        {{ task_form.title }}
+                    </div>
+                    <button type="submit" name="add_task" id="add-task-btn" class="btn primary" style="margin-top: 15px;"><i class="fa-solid fa-plus"></i> Add Task</button>
+                </form>
+
+                <h4>All Submitted Tasks ({{ tasks|length }} Total)</h4>
+                <ul id="task-list" style="padding: 0;">
+                    {% for task in tasks %}
+                    <li class="task-list-item">
+                        <div style="flex-grow: 1; margin-right: 15px;">
+                            <strong>{{ task.title }}</strong> 
+                            <small style="display:block; color:#888;">
+                                Date: {{ task.date|date:"d M Y" }} | By: 
+                                <span style="font-weight: 600; color: #333;">{{ task.user.username|default:"Admin" }}</span>
+                            </small>
+                        </div>
+
+                        <form method="post" style="margin:0;">
+                            {% csrf_token %}
+                            <input type="hidden" name="delete_task_id" value="{{ task.id }}">
+                            <button class="btn danger small" type="submit" 
+                                    onclick="return confirm('Are you sure you want to delete this task ?');">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </li>
+                    {% empty %}
+                    <p class="muted" style="text-align: center; color: #888;">No tasks have been added yet.</p>
+                    {% endfor %}
+                </ul>
+                
+            </div>
+        </div>
+        <div id="django-tasks" data-tasks-json="{{ events_json }}"></div>
+
+
+        <div class="toast"></div>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+        <script src="{% static 'JS/main.js' %}"></script>
+
+    </body>
+</html>

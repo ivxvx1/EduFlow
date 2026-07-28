@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Courses Table</title>
+        <!-- jQuery  -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <!-- DataTables CSS -->
+        <link rel="stylesheet"
+            href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <!-- DataTables Buttons CSS -->
+        <link rel="stylesheet"
+            href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+        <!-- JS Buttons -->
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+        <!-- Excel -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <!-- PDF -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+        <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    </head>
+
+    <body>
+
+        <header class="header">
+                    <nav>
+                        <a href={% url 'index' %} ><i class="fa-solid fa-house"></i> Home</a>
+                    </nav>
+                    <div class="brand">
+                        <img src="{% static 'images/EduFlow.png' %}" alt="logo" class="logo-img">
+                    </div>
+                    <div class="actions">
+                        <a class="btn" href={% url 'dashboard' %} ><i class="fa-solid fa-arrow-left"></i> Back</a>
+                    </div>
+        </header>
+
+        <div class="container card" style="margin: 30px auto; padding: 20px;">
+            <h2 style="margin-bottom: 20px; color: #64ADB1;"> Comprehensive Course Report</h2>
+
+            <table id="coursesTable" class="display" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Course Title</th>
+                        <th>Leader</th>
+                        <th>Total Units</th>
+                        <th>Total Assessments</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for c in courses %}
+                    <tr>
+                        <td>{{ c.id }}</td>
+                        <td><strong>{{ c.title }}</strong></td>
+                        <td>{{ c.leader_of_course }}</td>
+                        
+                        <td style="text-align: center;">
+                            <span class="badge">{{ c.total_units }}</span> 
+                        </td>
+                        <td style="text-align: center;">
+                            <span class="badge">{{ c.total_assessments }}</span>
+                        </td>
+                        
+                        <td>{{ c.created_at|date:"Y-m-d" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <script src="{% static 'JS/main.js' %}"></script>
+    </body>
+</html>

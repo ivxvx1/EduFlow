@@ -1,0 +1,320 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>EduFlow - Dashboard</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        
+    </head>
+    <body>
+        <div class="container-page">
+
+            <header class="header">
+                <nav>
+                    <a href="{% url 'index' %}" title="Home"><i class="fa-solid fa-house"></i> Home</a>
+                    <a href="{% url 'about' %}" title="About"><i class="fa-solid fa-circle-info"></i> About</a>
+                </nav>
+                <div class="brand">
+                    <img src="{% static 'images/EduFlow.png' %}" alt="logo" class="logo-img">
+                </div>
+                <nav>
+                    <a href="{% url 'dashboard' %}" title="Dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                    
+                    <a href="{% url 'logout' %}" id="logoutLink" title="Logout"><i class="fa-solid fa-sign-out"></i> Logout</a>
+                </nav>
+            </header>
+
+                <div class="flash-messages">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="message flash-{{ message.tags }}"> 
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            <aside class="sidebar card">
+                <h3>Menu</h3>
+                <div class="menu">
+                    <a href="#courses" class="menu-item"><i class="fa-solid fa-book"></i> Courses</a>
+                    <a href="{% url 'library' %}" class="menu-item"><i class="fa-solid fa-folder-open"></i> Library</a>
+                    <a href="{% url 'reviews' %}" class="menu-item"><i class="fa-solid fa-message"></i> Reviews</a>
+                    <a href="{% url 'Calendar' %}" class="menu-item"><i class="fa-solid fa-calendar-days"></i> Calendar</a>
+                </div>
+            </aside>
+
+            <main class="main-content page-content">
+                <div class="container">
+                    
+                    <section class="search-course card">
+                        <form method="get" class="search-form">
+                            <div class="form-group" style="display: flex; gap: 10px; align-items: center;">
+                                <label for="search_query" style="flex-shrink: 0; margin: 0; font-weight: normal;">
+                                    <i class="fa-solid fa-magnifying-glass"></i> Search Courses:
+                                </label>
+                                <input type="search" name="q" id="search_query" placeholder="Enter course title or instructor name..." 
+                                         value="{{ request.GET.q|default:'' }}" 
+                                         style="flex-grow: 1; margin: 0;">
+                                <button type="submit" class="btn primary">Search</button>
+                                {% if request.GET.q %}
+                                <a href="{% url 'dashboard' %}" class="btn ghost">Clear</a>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </section>
+
+
+                    <section id="courses" class="courses-container">
+
+                        <h3>Courses List</h3>
+
+                        <div class="courses-grid">
+                            {% for course in courses %}
+                                <div class="course-card card">
+                                    {% if course.image %}
+                                        <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-img">
+                                    {% else %}
+                                        <img src="{% static 'images/course_default.jpg' %}" alt="default" class="course-img">
+                                    {% endif %}
+                                    <h3 class="course-title">{{ course.title }}</h3>
+                                    
+                                    <p class="course-instructor">{{ course.leader_of_course}}</p>
+
+                                    <div style="display:flex; gap:8px; margin-top:8px;">
+                                        <a class="btn" href="{% url 'dashboard' %}?manage={{ course.id }}#course-manager">
+                                            <i class="fa-solid fa-gear"></i> Manage
+                                        </a>
+
+                                        <form method="post" style="display:inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="delete_course_id" value="{{ course.id }}">
+                                            <button type="submit" class="btn danger" onclick="return confirm('Are you sure you want to delete this course permanently?');">
+                                                <i class="fa-solid fa-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p>No courses yet.</p>
+                            {% endfor %}
+                        </div>
+                    </section>
+                    
+                    {% if manage_course %}
+                        <section class="course-manager card" style="margin-top:24px;" id="course-manager">
+                            <h2>Manage: {{ manage_course.title }}</h2>
+                            <a href="{% url 'dashboard' %}" class="btn ghost">
+                                <i class="fa-solid fa-xmark"></i> Close Manager
+                            </a>
+
+                            <div style="margin-top:10px;">
+                                <h4>Edit Course Details</h4>
+                                
+                                <button type="button" class="btn primary" id="editCourseButton">
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit Details
+                                </button>
+
+                                <div id="editCourseFormContainer" style="display:none; margin-top: 10px;"> 
+                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            {{ edit_course_form.as_p }}
+                                        </div>
+                                        <input type="hidden" name="course_id" value="{{ manage_course.id }}">
+                                        <button type="submit" name="edit_course" class="btn">
+                                            <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:16px;">
+                                
+                                <div style="flex:1; min-width:320px;">
+                                    <h4 class="manager-heading">Units</h4> {% for unit in units %}
+                                        <div class="card" style="margin-bottom:10px; padding: 10px;"> 
+                                            <strong>Unit : {{ unit.title }}</strong>
+                                            <p> {{ unit.description|default:"No description provided.." }}</p>
+                                            
+                                            <div style="margin-top: 8px; display:flex; gap: 6px;">
+                                                
+                                                <a class="btn small" 
+                                                href="{% url 'dashboard' %}?manage={{ manage_course.id }}&edit_unit={{ unit.id }}#unit-edit-form-{{ unit.id }}"
+                                                onclick="return confirm('Are you sure you want to edit this unit?');">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                </a>
+
+                                                <form method="post" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="unit_course" value="{{ manage_course.id }}">
+                                                    <input type="hidden" name="delete_unit_id" value="{{ unit.id }}">
+                                                    <button type="submit" class="btn danger small" onclick="return confirm('Are you sure you want to delete this unit?');">
+                                                        <i class="fa-solid fa-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                            {% if edit_unit_id and edit_unit_id|stringformat:"s" == unit.id|stringformat:"s" %}
+                                                <div style="margin-top: 15px;" id="unit-edit-form-{{ unit.id }}"> <div class="card feedback-card" style="border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+                                                    <div class="fb-head" style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; color: #64ADB1;">
+                                                        <strong><i class="fa-solid fa-pen-to-square"></i> Editing Unit: {{ unit.title }}</strong>
+                                                    </div>
+                                                    
+                                                    <form method="post" enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            {{ edit_unit_form.as_p }} 
+                                                        </div>
+                                                        <input type="hidden" name="unit_id" value="{{ unit.id }}">
+                                                        <input type="hidden" name="unit_course" value="{{ manage_course.id }}">
+                                                        
+                                                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                                            <button type="submit" name="edit_unit" class="btn primary">
+                                                                <i class="fa-solid fa-floppy-disk"></i> Save Unit
+                                                            </button>
+                                                            
+                                                            <a href="{% url 'dashboard' %}?manage={{ manage_course.id }}" class="btn ghost">
+                                                                <i class="fa-solid fa-xmark"></i> Cancel
+                                                            </a>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    {% empty %}
+                                        <p>No units yet.</p>
+                                    {% endfor %}
+
+                                    <div style="margin-top:12px;">
+                                        <h5>Add New Unit</h5>
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                {{ unit_form.as_p }}
+                                            </div>
+                                            <input type="hidden" name="unit_course" value="{{ manage_course.id }}">
+                                            <button type="submit" name="add_unit" class="btn primary">
+                                                <i class="fa-solid fa-plus"></i> Add Unit
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <hr class="manager-divider"> <div style="flex:1; min-width:320px;">
+                                    <h4 class="manager-heading">Assessments</h4> {% for a in assessments %}
+                                        <div class="card" style="margin-bottom:10px; padding: 10px;">
+                                            <strong>{{ a.title }}</strong> — <small>Grade: {{ a.grade }}</small>
+                                            <p>{{ a.description|default:"No description provided." }}</p>
+                                            {% if a.deadline %}<p>Deadline: {{ a.deadline }}</p>{% endif %}
+
+                                            <div style="margin-top: 8px; display:flex; gap: 6px;">
+                                                
+                                                <a class="btn small" 
+                                                href="{% url 'dashboard' %}?manage={{ manage_course.id }}&edit_assessment={{ a.id }}#assessment-edit-form-{{ a.id }}"
+                                                onclick="return confirm('Are you sure you want to edit this assessment?');">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                </a>
+                                                
+                                                <form method="post" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="assessment_course" value="{{ manage_course.id }}">
+                                                    <input type="hidden" name="delete_assessment_id" value="{{ a.id }}">
+                                                    <button type="submit" class="btn danger small" onclick="return confirm('Are you sure you want to delete this assessment?');">
+                                                        <i class="fa-solid fa-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                            {% if edit_assessment_id and edit_assessment_id|stringformat:"s" == a.id|stringformat:"s" %}
+                                                <div style="margin-top: 15px;" id="assessment-edit-form-{{ a.id }}"> <div class="card feedback-card" style="border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+                                                    <div class="fb-head" style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; color: #64ADB1;">
+                                                        <strong><i class="fa-solid fa-pen-to-square"></i> Editing Assessment: {{ a.title }}</strong>
+                                                    </div>
+                                                    
+                                                    <form method="post" enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            {{ edit_assessment_form.as_p }} 
+                                                        </div>
+                                                        <input type="hidden" name="assessment_id" value="{{ a.id }}">
+                                                        <input type="hidden" name="assessment_course" value="{{ manage_course.id }}">
+                                                        
+                                                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                                            <button type="submit" name="edit_assessment" class="btn primary">
+                                                                <i class="fa-solid fa-floppy-disk"></i> Save Assessment
+                                                            </button>
+                                                            
+                                                            <a href="{% url 'dashboard' %}?manage={{ manage_course.id }}" class="btn ghost">
+                                                                <i class="fa-solid fa-xmark"></i> Cancel
+                                                            </a>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    {% empty %}
+                                        <p>No assessments yet.</p>
+                                    {% endfor %}
+
+                                    <div style="margin-top:12px;">
+                                        <h5>Add New Assessment</h5>
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                {{ assessment_form.as_p }}
+                                            </div>
+                                            <input type="hidden" name="assessment_course" value="{{ manage_course.id }}">
+                                            <button type="submit" name="add_assessment" class="btn primary">
+                                                <i class="fa-solid fa-plus"></i> Add Assessment
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    {% endif %}
+
+                    <a href="{% url 'courses_table' %}" class="btn primary" style="margin-bottom:10px;">
+                       <i class="fa-solid fa-table"></i> Open Courses Table
+                    </a>
+                    <a href="{% url 'course_report' %}" class="btn primary" style="margin-bottom:10px;">
+                       <i class="fa-solid fa-table"></i>  Courses Report
+                    </a>
+                    <section class="add-course card" style="margin-bottom:18px;">
+                        <h3>Create New Course</h3>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ create_form.as_p }}
+                            </div>
+                            <button type="submit" name="create_course" class="btn primary">
+                                <i class="fa-solid fa-plus"></i> Create Course
+                            </button>
+                        </form>
+                    </section>
+                    
+                </div>
+            </main>
+        </div>
+
+            <footer class="footer">
+                <div class="brand">
+                    <img src="{% static 'images/EduFlow_w.png'%}" alt="logo" class="logo-img">
+                </div>
+                <span class="footer-text">Every step you take today brings you closer to your dreams</span>
+                
+                <div class="footer-icons">
+                    <a href="https://www.instagram.com/gcetoman?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" class="icon"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-regular fa-envelope"></i></a>
+                    <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-solid fa-square-phone-flip"></i></a>
+                </div>
+            </footer>
+
+        <script src="{% static 'JS/main.js' %}"></script>
+    </body>
+</html>

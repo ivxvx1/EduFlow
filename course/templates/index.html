@@ -1,0 +1,67 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EduFlow</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container-page">
+  <header class="header">
+    <nav>
+      <a href={% url 'index' %}><i class="fa-solid fa-house"></i> Home</a>
+      <a href={% url 'about' %}><i class="fa-solid fa-circle-info"></i> About</a>
+    </nav>
+
+    <div class="brand">
+      <img src="{% static 'images/EduFlow.png' %}" alt="logo" class="logo-img">
+    </div>
+    <nav>
+      <a href={% url 'dashboard' %}><i class="fa-solid fa-gauge"></i> Dashboard</a>
+      <a href= {% url 'logout' %} id="logoutLink"><i class="fa-solid fa-sign-out"></i> Logout</a>
+    </nav>
+  </header>
+
+    <main class="page-content">
+      <section class="hero">
+        <div>
+          <h1 style="color: #000000;">Manage your courses easily</h1>
+          <p style="color: #515353;">Organize Courses, Add Lessons, Gather Feedback, and Share Resources All from One Simple Dashboard .</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a class="btn primary" href="{% url 'login' %}"><i class="fa-solid fa-user-tie"></i> Login as Programme Leader</a>
+            <a class="btn ghost" href="{% url 'about' %}"><i class="fa-solid fa-book-open-reader"></i> Learn more</a>
+          </div>
+          <div class="grid-3">
+            <div class="feature card"><h4><i class="fa-solid fa-layer-group"></i> Simple and Efficient Course Management</h4><p class="muted">Create and organize content fast.</p></div>
+            <div class="feature card"><h4><i class="fa-solid fa-calendar-days"></i> Stay on Track with Your Calendar</h4><p class="muted">Easily Organize Your Events and Set Important Dates</p></div>
+            <div class="feature card"><h4><i class="fa-solid fa-comments"></i> Student Feedback</h4><p class="muted">Collect reviews and improve</p></div>
+          </div>
+        </div>
+        <div style="text-align:center">
+          <img src="{% static 'images/BR.png' %}" alt="hero" class="hero-img">
+        </div>
+      </section>
+    </main>
+
+   <footer class="footer">
+      <div class="brand">
+          <img src="{% static 'images/EduFlow_w.png'%}" alt="logo" class="logo-img">
+      </div>
+      <span class="footer-text">Every step you take today brings you closer to your dreams</span>
+      
+      <div class="footer-icons">
+          <a href="https://www.instagram.com/gcetoman?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" class="icon"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-regular fa-envelope"></i></a>
+          <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-solid fa-square-phone-flip"></i></a>
+      </div>
+    </footer>
+
+  <script src="{% static 'JS/main.js' %}"></script>
+
+  <div class="toast"></div>
+</body>
+</html>

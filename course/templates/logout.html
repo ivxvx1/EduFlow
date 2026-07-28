@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EduFlow</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="container-page">
+
+    <header class="header" style="justify-content: center">
+
+      <div class="brand">
+         <img src="{% static 'images/EduFlow.png' %}" alt="logo" class="logo-img">
+      </div>
+      
+    </header>
+
+    <main class="page-content" style="flex: 1 1 auto; display: flex; align-items: center; justify-content: center;">
+            <div class="logout-box card" style="text-align: center; padding: 50px; max-width: 450px;">
+                <i class="fa-solid fa-door-open" style="font-size: 60px; color: var(--accent); margin-bottom: 20px;"></i>
+                <h2 style="color: #088a10ff; margin-bottom: 10px;">You have been logged out successfully</h2>
+                <p style="color: var(--muted); margin-bottom: 30px;">
+                    Thank you for using EduFlow. Your session has ended securely.
+                </p>
+                <a href="{% url 'login' %}" class="btn primary" style="width: 100%;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Go to Login Page
+                </a>
+            </div>
+    </main>
+
+    <footer class="footer">
+            <div class="brand">
+            <img src="{% static 'images/EduFlow_w.png' %}" alt="logo" class="logo-img">
+            </div>
+            <span class="footer-text">Every step you take today brings you closer to your dreams</span>
+
+            <div class="footer-icons">
+            <a href="https://www.instagram.com/gcetoman?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" class="icon"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-regular fa-envelope"></i></a>
+            <a href="https://gcet.edu.om/ar/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/" class="icon"><i class="fa-solid fa-square-phone-flip"></i></a>
+            </div>
+    </footer>
+
+    </div>
+</body>
+</html>
