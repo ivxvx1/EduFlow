@@ -12,15 +12,12 @@ import json
 def index(request): 
     return render(request, 'index.html')
 
-# ==================== 2. LIBRARY VIEW ======================
-def library(request): 
-    return render(request, 'library.html')
-
 # ==================== 3. ABOUT VIEW ======================
-def about(request): 
+def about(request):
     return render(request, 'about.html')
 
 # ==================== 4. REVIEWS VIEW (Feedback CRUD) ======================
+@login_required
 def reviews(request):
     """View to handle submitting and displaying user reviews/feedback."""
     if request.method == "POST":
